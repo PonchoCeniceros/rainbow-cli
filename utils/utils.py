@@ -1,5 +1,5 @@
 from colorama import init, Fore, Back, Style
-import re
+import re, json
 
 def logo() -> None:
     print()
@@ -9,7 +9,6 @@ def logo() -> None:
     print(f"{Style.BRIGHT}{Fore.BLUE   } | | | (_| | | | | | |_) | (_) \ V  V / ")
     print(f"{Style.BRIGHT}{Fore.MAGENTA} |_|  \__,_|_|_| |_|_.__/ \___/ \_/\_/  ")
     print(f"{Style.BRIGHT}{Fore.CYAN   }                                        ")
-    print()
 
 def finish() -> None:
     sb = Style.BRIGHT
@@ -23,17 +22,30 @@ def finish() -> None:
     print(f" {sb}{a}e{b}n{c}j{d}o{e}y{f} {a}c{b}o{c}d{d}i{e}n{f}g{a}!{Fore.RESET}")
     print()
 
+
 def getBanners() -> dict:
+    sb  = Style.BRIGHT
+    rst = Fore.RESET
+    a = Fore.RED
+    b = Fore.GREEN
+    c = Fore.YELLOW
+    d = Fore.BLUE
+    e = Fore.MAGENTA
+    f = Fore.CYAN
+
     return {
-        'BN1': ' generate client project...' + Fore.RESET,
-        'BN2': ' removing current project source files...' + Fore.RESET,
-        'BN3': ' creating directory structure...' + Fore.RESET,
-        'BN4': ' adding index.js...' + Fore.RESET,
-        'BN5': ' creating git project...' + Fore.RESET,
-        'BN6': ' creating desktop project...' + Fore.RESET,
-        'BN7': ' updating package.json...' + Fore.RESET,
-        'BN8': ' installing desktop dependencies...' + Fore.RESET,
-        'OK': Fore.GREEN + 'ok' + Fore.RESET,
+        "new_project": f" {sb}creating new project{rst}...",
+        "file_structure": f" {sb}creating file structure{rst}...",
+        "creating_assets": f" creating {sb}{a}assets{rst} folder and {sb}{d}Tailwind{rst} configuration...",
+        "creating_components": f" creating {sb}{c}components{rst} folder...",
+        "creating_hooks": f" creating {sb}{e}hooks{rst} folder...",
+        "creating_helpers": f" creating {sb}{b}helpers{rst} folder...",
+        "creating_views": f" creating {sb}{f}views{rst} folder and {sb}{c}main{rst} component...",
+        "dependencies_for_desktop": f" installing dependencies for desktop applications...",
+        "git_project": f" instantiating {sb}{b}git{rst} project...",
+
+        "jsconfig_json": f"please copy {sb}{c}" + '{"compilerOptions": {"baseUrl": "src", "paths": {"*": ["src/*"]}}}' + f"{rst} on jsconfig.json",
+        "OK": f"{sb}{b}ok{rst}",
     }
 
 def getContent() -> dict:
@@ -52,15 +64,14 @@ f"""
         plugins: [],
 }
 """
-
         return {
 #
 # contenido de index.js
 #
         'index': """import React from 'react';
 import {createRoot} from 'react-dom/client';
-import App from './pages/app/app';
-import './index.css';
+import App from './views/app';
+import 'assets/styles/index.css';
 
 const container = document.querySelector('#root');
 const root = createRoot(container);
@@ -149,7 +160,7 @@ app.on('window-all-closed', function() {
 @tailwind components;
 @tailwind utilities;
         """,
-    }
+        }
 
 
 def formatProjectName(name: str) -> str:
